@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Ardhana</title>
+  <style>
+    body {
+      margin:0;
+      font-family: 'Poppins', sans-serif;
+      background:#111;
+      color:#fff;
+    }
+    header {
+      background:rgba(0,0,0,0.7);
+      padding:10px;
+      position:fixed;
+      width:100%;
+      top:0;
+      z-index:10;
+    }
+    nav ul {
+      display:flex;
+      list-style:none;
+      justify-content:center;
+      margin:0;
+      padding:0;
+    }
+    nav ul li a {
+      color:white;
+      margin:0 15px;
+      text-decoration:none;
+      font-weight:bold;
+    }
+    .hero {
+      position:relative;
+      height:100vh;
+      overflow:hidden;
+    }
+    .hero img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter:blur(3px) brightness(0.7); /* efek kaca berembun */
+    }
+    canvas#rain {
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      z-index:2;
+      pointer-events:none;
+    }
+    .overlay {
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      text-align:center;
+      z-index:3;
+    }
+    .overlay h1 {
+      font-size:3em;
+      margin-bottom:20px;
+      text-shadow:0 0 10px rgba(0,0,0,0.8);
+    }
+    .overlay p {
+      font-size:1.2em;
+      margin-bottom:20px;
+    }
+    .overlay button {
+      padding:10px 20px;
+      border:none;
+      background:#ff6600;
+      color:#fff;
+      font-size:1em;
+      border-radius:5px;
+      cursor:pointer;
+    }
+    .info {
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      padding:40px 20px;
+      background:#222;   
+    }
+
+    /* Efek hover */
+.btn:hover {
+  background:#cc5200;       /* warna lebih gelap */
+  transform: scale(1.1);    /* tombol sedikit membesar */
+  box-shadow:0 0 15px rgba(255,102,0,0.7); /* glow oranye */
+}
+
+    .box {
+      background:rgba(255,255,255,0.1);
+      padding:20px;
+      border-radius:10px;
+      backdrop-filter:blur(5px);
+      flex:1;
+      text-align:center;
+    }
+    footer {
+      background:#000;
+      color:white;
+      text-align:center;
+      padding:15px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="Profil.html" class="btn">Profil</a></li>
+        <li><a href="#">Kontak</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <img src="kamome.png" alt="Foto Profil">
+    <canvas id="rain"></canvas>
+    <div class="overlay">
+      <h1>Halo, Saya Ardhana</h1>
+      <p> Anime & Musik Enthusiast</p>
+      <p> Go Go</p>
+      <a href="Kenal Lebih Dekat.html" class="btn"> <button>Kenal Lebih Dekat</button></a>
+    </div>
+  </section>
+
+  <!-- Info Boxes -->
+  <section class="info">
+   
+    <div class="box">📚 Minat: Anime & Musik</div>
+    <div class="box">Rhythm Game Guy</div>
+
+  </section>
+
+
+  <script>
+    const canvas = document.getElementById("rain");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = document.querySelector(".hero").offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    let drops = [];
+    for(let i=0; i<200; i++){
+      drops.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        speed: 2+Math.random()*3
+      });
+    }
+
+    function drawRain(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.strokeStyle = "rgba(255,255,255,0.6)";
+      ctx.lineWidth = 1;
+      for(let d of drops){
+        ctx.beginPath();
+        ctx.moveTo(d.x, d.y);
+        ctx.lineTo(d.x, d.y+10);
+        ctx.stroke();
+        d.y += d.speed;
+        if(d.y > canvas.height) {
+          d.y = 0;
+          d.x = Math.random()*canvas.width;
+        }
+      }
+      requestAnimationFrame(drawRain);
+    }
+    drawRain();
+  </script>
+</body>
+</html>
